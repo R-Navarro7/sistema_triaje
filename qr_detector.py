@@ -15,7 +15,10 @@ while True:
         if ret_qr:
             for s, p in zip(decoded_info, points):
                 if s:
-                    print(s)
+                    splitted = s.split('?')
+                    splitted_2 = splitted[1].split('&')
+                    RUN = splitted_2[0]
+                    print(RUN)
                     color = (0, 255, 0)
                 else:
                     color = (0, 0, 255)

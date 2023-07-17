@@ -35,17 +35,17 @@ for z in fuzzy_sets:
 plt.show()
 '''
 
-corners_c1 = np.array([-1.0,-1.0,-0.8,-0.6])
-corners_c2 = np.array([-0.8,-0.65,-0.35,-0.2])
-corners_c3 = np.array([-0.3,-0.15,0.15,0.3])
-corners_c4 = np.array([0.2,0.35,0.65,0.8])
-corners_c5 = np.array([0.6,0.8,1.0,1.0])
+corners_c1 = np.array([-1.0,-0.8,-0.6])
+corners_c2 = np.array([-0.8,-0.5,-0.2])
+corners_c3 = np.array([-0.3,0,0.3])
+corners_c4 = np.array([0.2,0.5,0.8])
+corners_c5 = np.array([0.6,0.8,1.0])
 
-trap_c1 = fzy.trapmf(r_norm, corners_c1)
-trap_c2 = fzy.trapmf(r_norm, corners_c2)
-trap_c3 = fzy.trapmf(r_norm, corners_c3)
-trap_c4 = fzy.trapmf(r_norm, corners_c4)
-trap_c5 = fzy.trapmf(r_norm, corners_c5)
+trap_c1 = fzy.trimf(r_norm, corners_c1)
+trap_c2 = fzy.trimf(r_norm, corners_c2)
+trap_c3 = fzy.trimf(r_norm, corners_c3)
+trap_c4 = fzy.trimf(r_norm, corners_c4)
+trap_c5 = fzy.trimf(r_norm, corners_c5)
 
 categories = [trap_c1, trap_c2, trap_c3, trap_c4, trap_c5]
 
@@ -109,13 +109,13 @@ rules = [rule_1, rule_2, rule_3, rule_4, rule_5, rule_6, rule_7, rule_8, rule_9,
 #     axs[i,0].plot(r_norm, rules[val][0])
 #     axs[i,0].set_title('E1')
 #     axs[i,0].set_ylabel(f'Rule {i+1}', fontsize=18)
-
+# 
 #     axs[i,1].plot(r_norm, rules[val][1])
 #     axs[i,1].set_title('E2')
-
+# 
 #     axs[i,2].plot(r_norm, rules[val][2])
 #     axs[i,2].set_title(f'E3')
-
+# 
 #     axs[i,3].plot(r_norm, rules[val][3])
 #     axs[i,3].set_title(f'S')
 # fig.tight_layout(pad=2.0)
@@ -128,7 +128,7 @@ class SistemaExperto:
         self.tags = ['C1', 'C2', 'C3', 'C4', 'C5']
 
     # Funcion de pertenencia: devuelve el valor de pertenencia de un valor 
-    def mu(val, fuzzy_set):
+    def mu(self, val, fuzzy_set):
         val_idx = np.abs(r_norm - val).argmin()
         return fuzzy_set[val_idx]
 
@@ -140,14 +140,14 @@ class SistemaExperto:
         output = np.array([S[i] if binary_cut[i] == 0 else thresh for i in range(len(S))])
         return output
 
-    def or_combination(sets):
+    def or_combination(self, sets):
         output_set = []
         for i in range(len(r_norm)):
             values = [s[i] for s in sets]
             output_set.append(max(values))
         return np.array(output_set)
 
-    def cog(s):
+    def cog(self, s):
         if np.sum(s) == 0:
             return 0
         else:
@@ -172,4 +172,4 @@ class SistemaExperto:
         result = [self.tags[np.argmax(mus)], max(mus)]
 
 
-        return defuzz, activated_rules
+        return result

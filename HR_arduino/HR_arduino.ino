@@ -83,9 +83,6 @@ void loop()
 
   if (irValue >= 50000)
     Serial.print(beatsPerMinute);
-    Serial.print(" ");
-    Serial.print(beatAvg);
-
   if (irValue < 50000)
     Serial.print(" No finger?");
 

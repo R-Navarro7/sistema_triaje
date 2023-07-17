@@ -55,11 +55,6 @@ for z in categories:
 plt.show()
 '''
 
-# Funcion de pertenencia: devuelve el valor de pertenencia de un valor 
-def mu(val, fuzzy_set):
-    val_idx = np.abs(r_norm - val).argmin()
-    return fuzzy_set[val_idx]
-
 # Implementacion funcion de_a
 def de_a(corners_1,corners_2):
     sorted_fuzz = np.append(corners_1,corners_2)
@@ -72,42 +67,6 @@ def de_a_corners(corners_1,corners_2):
     sorted_fuzz.sort()
     de_a = [sorted_fuzz[0],sorted_fuzz[1],sorted_fuzz[-2],sorted_fuzz[-1]]
     return de_a
-
-
-def rule_output(val, rule):
-    E1, E2, E3 = val[0], val[1], val[2]
-    TEMP, OX, P, S = rule[0], rule[1], rule[2], rule[3]
-    thresh = min(mu(E1, TEMP), mu(E2, OX), mu(E3,P))
-    binary_cut = fzy.lambda_cut(rule[3], thresh)
-    output = np.array([S[i] if binary_cut[i] == 0 else thresh for i in range(len(S))])
-    return output
-
-def or_combination(sets):
-    output_set = []
-    for i in range(len(r_norm)):
-        values = [s[i] for s in sets]
-        output_set.append(max(values))
-    return np.array(output_set)
-
-def cog(s):
-    if np.sum(s) == 0:
-        return 0
-    else:
-        return np.sum(s*r_norm)/np.sum(s)
-
-
-def inference_machine(E1, E2, E3, rules, defuzz_mode):
-    out_sets = []
-    activated_rules = []
-    for i, rule in enumerate(rules):
-        out = rule_output((E1,E2,E3), rule)
-        if max(out) != 0: activated_rules.append(i+1)
-        out_sets.append(out)
-    combined_output = or_combination(out_sets.copy())
-    defuzz = cog(combined_output)
-    return defuzz, activated_rules
-
-
 
 #### BASE DE CONOCIMIENTOS ####
 
@@ -161,3 +120,56 @@ rules = [rule_1, rule_2, rule_3, rule_4, rule_5, rule_6, rule_7, rule_8, rule_9,
 #     axs[i,3].set_title(f'S')
 # fig.tight_layout(pad=2.0)
 # plt.show()
+
+class SistemaExperto:
+    def __init__(self) -> None:
+        self.rules = rules
+        self.classes = categories
+        self.tags = ['C1', 'C2', 'C3', 'C4', 'C5']
+
+    # Funcion de pertenencia: devuelve el valor de pertenencia de un valor 
+    def mu(val, fuzzy_set):
+        val_idx = np.abs(r_norm - val).argmin()
+        return fuzzy_set[val_idx]
+
+    def rule_output(self,val, rule):
+        E1, E2, E3 = val
+        TEMP, OX, P, S = rule
+        thresh = min(self.mu(E1, TEMP), self.mu(E2, OX), self.mu(E3,P))
+        binary_cut = fzy.lambda_cut(rule[3], thresh)
+        output = np.array([S[i] if binary_cut[i] == 0 else thresh for i in range(len(S))])
+        return output
+
+    def or_combination(sets):
+        output_set = []
+        for i in range(len(r_norm)):
+            values = [s[i] for s in sets]
+            output_set.append(max(values))
+        return np.array(output_set)
+
+    def cog(s):
+        if np.sum(s) == 0:
+            return 0
+        else:
+            return np.sum(s*r_norm)/np.sum(s)
+
+
+    def inference_machine(self, E1, E2, E3):
+        out_sets = []
+        activated_rules = []
+        for i, rule in enumerate(self.rules):
+            out = self.rule_output((E1,E2,E3), rule)
+            if max(out) != 0: activated_rules.append(i+1)
+            out_sets.append(out)
+        combined_output = self.or_combination(out_sets.copy())
+        defuzz = self.cog(combined_output)
+
+        mus = []
+        for i , class_ in enumerate(self.classes):
+            mu_ = self.mu(defuzz, class_)
+            mus.append(mu_)
+        
+        result = [self.tags[np.argmax(mus)], max(mus)]
+
+
+        return defuzz, activated_rules

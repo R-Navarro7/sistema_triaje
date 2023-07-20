@@ -25,23 +25,5 @@ En esta etapa inicial del proyecto, nos enfocamos en desarrollar el Producto Mí
 2. **Medición de Signos Vitales**: Se ha implementado una funcionalidad para medir los signos vitales relevantes de manera automática.
 
 3. **Categorización por Triaje**: El sistema cuenta con un sistema experto que evalúa los datos recolectados y categoriza al paciente según su nivel de gravedad, brindando al personal de salud una guía clara en la toma de decisiones.
-
-## Instalación y Uso
-
-1. Clona este repositorio en tu máquina local.
-
-```bash
-git clone https://github.com/tu_usuario/sistema-triaje-hospitalario.git
-```
-
-2. Accede al directorio del proyecto.
-
-```bash
-cd sistema-triaje-hospitalario
-```
-
-3. Ejecuta el archivo de inicio para iniciar la aplicación.
-
-```bash
-python main.py
+ main.py
 ```

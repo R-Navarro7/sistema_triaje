@@ -1,6 +1,6 @@
 **Nombre del Proyecto: Sistema de Triaje Hospitalario Inteligente**
 
-![Imagen del Proyecto](vista frontal 2.png)
+![Imagen del Proyecto](modelo.png)
 
 ## Descripción del Proyecto
 
@@ -45,4 +45,3 @@ cd sistema-triaje-hospitalario
 ```bash
 python main.py
 ```
-

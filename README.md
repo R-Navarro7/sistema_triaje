@@ -1,6 +1,6 @@
 **Nombre del Proyecto: Sistema de Triaje Hospitalario Inteligente**
 
-![Imagen del Proyecto](Modelo3D.jpg)
+![Imagen del Proyecto](vista frontal 2.png)
 
 ## Descripción del Proyecto
 

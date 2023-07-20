@@ -1,4 +1,4 @@
-**Nombre del Proyecto: Sistema de Triaje Hospitalario Inteligente**
+# Sistema de Triaje Hospitalario Inteligente 
 
 ![Imagen del Proyecto](modelo.png)
 
